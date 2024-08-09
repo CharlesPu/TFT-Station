@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include "mtime.h"
-
+#include "config.h"
 
 void syncSysTime() {
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServerUrl3,ntpServerUrl2,ntpServerUrl1);

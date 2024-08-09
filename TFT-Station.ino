@@ -2,6 +2,7 @@
 #include <SPI.h>
 #include "mhttp.h"
 #include "mtime.h"
+#include "config.h"
 #include "weather.h"
 #include "xingkai20.h"
 #include "bangtamvan-kvjmd80.h"
