@@ -1,8 +1,8 @@
+#include "config.h"
 #include <TFT_eSPI.h> 
 #include <SPI.h>
 #include "mhttp.h"
 #include "mtime.h"
-#include "config.h"
 #include "weather.h"
 #include "fangzhengxiaobiaosongjianti28.h"
 #include "bangtamvan-kvjmd80.h"
