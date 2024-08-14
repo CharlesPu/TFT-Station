@@ -6,8 +6,8 @@
 #include "weather.h"
 
 
-// #include <WiFi.h>
-// #include <WiFiMulti.h>
+#include <WiFi.h>
+#include <WiFiMulti.h>
 
 
 

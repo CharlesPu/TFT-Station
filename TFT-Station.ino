@@ -108,9 +108,9 @@ void draw_date(struct tm *timeinfo)
   sprintf(tmp_date, "%d.%02d.%02d", timeinfo->tm_year+1900, timeinfo->tm_mon+1, timeinfo->tm_mday);
   sprintf(tmp_week, "%s", wday_map[timeinfo->tm_wday]);
 
-  // my_lcd.setTextFont(4);// 1 2 4 6 7 8
+  my_lcd.setTextFont(4);// 1 2 4 6 7 8
   my_lcd.setTextColor(my_lcd.color24to16(COLOR_DATE));
-  my_lcd.drawCentreString(tmp_date, area_top_left_w/2+2, area_top_left_y+4,4);
+  my_lcd.drawString(tmp_date, 3, area_top_left_y+4);
 
   my_lcd.loadFont(chn_fangzhengxiaobiaosongjianti28);
   my_lcd.setTextColor(my_lcd.color24to16(COLOR_WEEK));

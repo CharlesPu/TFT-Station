@@ -2,24 +2,22 @@
 #include "config.h"
 #include <ArduinoJson.h>
 
-#include <ESP8266WiFi.h>
-#include <ESP8266WiFiMulti.h>
-#include <ESP8266HTTPClient.h>
-#include <WiFiClient.h>
-
-ESP8266WiFiMulti WiFiMulti;
-
-// #include <ArduinoHttpClient.h>
-// #include <HTTPClient.h>
+#include <HTTPClient.h>
 #include <string.h>
 
-// WiFiClient mwifiMulti;
+// #include <ESP8266WiFi.h>
+// #include <ESP8266WiFiMulti.h>
+// #include <ESP8266HTTPClient.h>
+// #include <WiFiClient.h>
+
+// ESP8266WiFiMulti WiFiMulti;
+WiFiMulti WiFiMulti;
+
 
 // 采用此定义是为了消除 The plain HTTP request was sent to HTTPS port 的报错
-std::unique_ptr<BearSSL::WiFiClientSecure> client(new BearSSL::WiFiClientSecure);
+// std::unique_ptr<BearSSL::WiFiClientSecure> client(new BearSSL::WiFiClientSecure);
 
 void wifiInit(void){
-	
 	WiFi.mode(WIFI_STA);
 	WiFiMulti.addAP(WIFI_AP_NAME, WIFI_AP_PWD); 
 	
@@ -30,7 +28,7 @@ void wifiInit(void){
 		delay(300);
 	}
 	Serial.println(" connected");
-	client->setInsecure();
+	// client->setInsecure();
 }
 
 weather_info_t getTodayWeather(String city){
@@ -45,7 +43,7 @@ weather_info_t getTodayWeather(String city){
 	HTTPClient http;
 	weather_info_t r;
 
-	http.begin(*client, url_xinzhi);
+	http.begin(url_xinzhi);
 	int httpGet = http.GET();
 	if (httpGet > 0)
 	{
@@ -88,7 +86,7 @@ weather_info_t getForecastWeather(String city){
 	HTTPClient http;
 	weather_info_t r;
 
-	http.begin(*client, url_xinzhi);
+	http.begin(url_xinzhi);
 
 	int httpGet = http.GET();
 	if (httpGet > 0)
@@ -150,7 +148,7 @@ traffic_t getTraffic(){
 	HTTPClient http;
 	traffic_t r;
 
-	http.begin(*client, url);
+	http.begin(url);
 
 	int httpGet = http.GET();
 	if (httpGet > 0)
@@ -185,7 +183,7 @@ void httpTest(void) {
 
   Serial.print("[HTTP] begin...\n");
    // configure traged server and url
-	http.begin(*client, "https://restapi.amap.com/v5/direction/driving?origin=120.140430,30.346661&destination=120.264363,30.184050&key=7096bd9f91152cf97240707401009b86&output=json&show_fields=cost");
+	http.begin("https://restapi.amap.com/v5/direction/driving?origin=120.140430,30.346661&destination=120.264363,30.184050&key=7096bd9f91152cf97240707401009b86&output=json&show_fields=cost");
 
 
    Serial.print("[HTTP] GET...\n");
