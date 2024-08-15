@@ -1,3 +1,4 @@
+
 #include <lvgl.h>
 #include <TFT_eSPI.h>
 /*If you want to use the LVGL examples,
@@ -8,14 +9,18 @@
 //#include "examples/lv_examples.h"
 #include "demos/lv_demos.h"
 
+#define USE_PSRAM 1 //0-not use , 1-use
+#define CENTER 120
+
 /*Change to your screen resolution*/
 static const uint16_t screenWidth  = 320;
 static const uint16_t screenHeight = 240;
 
 static lv_disp_draw_buf_t draw_buf;
-static lv_color_t buf[ screenWidth * 10 ];
+// static lv_color_t buf[ screenWidth * 10 ];
+static lv_color_t *buf;
 
-TFT_eSPI tft = TFT_eSPI(screenWidth, screenHeight); /* TFT instance */
+TFT_eSPI tft = TFT_eSPI(); /* TFT instance */
 
 #if LV_USE_LOG != 0
 /* Serial debugging */
@@ -32,10 +37,10 @@ void my_disp_flush( lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *colo
     uint32_t w = ( area->x2 - area->x1 + 1 );
     uint32_t h = ( area->y2 - area->y1 + 1 );
 
-    tft.startWrite();
+    // tft.startWrite();
     tft.setAddrWindow( area->x1, area->y1, w, h );
-    tft.pushColors( ( uint16_t * )&color_p->full, w * h, false);
-    tft.endWrite();
+    tft.pushColors( ( uint16_t * )&color_p->full, w * h, true);
+    // tft.endWrite();
 
     lv_disp_flush_ready( disp );
 }
@@ -45,7 +50,7 @@ void my_touchpad_read( lv_indev_drv_t * indev_driver, lv_indev_data_t * data )
 {
     uint16_t touchX, touchY;
 
-    bool touched = tft.getTouch( &touchX, &touchY, 600 );
+    bool touched = tft.getTouch( &touchX, &touchY);
 
     if( !touched )
     {
@@ -60,9 +65,9 @@ void my_touchpad_read( lv_indev_drv_t * indev_driver, lv_indev_data_t * data )
         data->point.y = touchY;
 
         Serial.print( "Data x " );
-        Serial.println( touchX );
+        Serial.print( touchX );
 
-        Serial.print( "Data y " );
+        Serial.print( ", y " );
         Serial.println( touchY );
     }
 }
@@ -76,8 +81,7 @@ void setup()
 
     Serial.println( LVGL_Arduino );
     Serial.println( "I am LVGL_Arduino" );
-
-    lv_init();
+    // lv_init();
 
 #if LV_USE_LOG != 0
     lv_log_register_print_cb( my_print ); /* register print function for debugging */
@@ -85,24 +89,44 @@ void setup()
 
     tft.begin();          /* TFT init */
     tft.setRotation( 3 ); /* Landscape orientation, flipped */
-    tft.setSwapBytes(true);// todo
+    // tft.setSwapBytes(true);// todo
 
 
     /*Set the touchscreen calibration data,
      the actual data for your display can be acquired using
      the Generic -> Touch_calibrate example from the TFT_eSPI library*/
 
-    uint16_t calData[5] = { 481, 3345, 435, 3248, 1 };
+    uint16_t calData[5] = { 398, 3455, 356, 3344, 1 };
     tft.setTouch(calData);
 
+    lv_init();
+
     lv_disp_draw_buf_init( &draw_buf, buf, NULL, screenWidth * 10 );
+    
+#if USE_PSRAM != 0
+    buf = (lv_color_t *)heap_caps_malloc(sizeof(lv_color_t) * screenWidth * screenHeight , MALLOC_CAP_SPIRAM);
+#else
+    buf = (lv_color_t *)heap_caps_malloc(sizeof(lv_color_t) * screenWidth*30 , MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT);
+#endif
+  if (!buf)
+  {
+    tft.fillScreen(TFT_WHITE);
+    tft.setTextColor(TFT_RED);
+    tft.drawCentreString("LVGL display draw buffer allocate failed!",CENTER,tft.height()/2-8,2);
+    return;
+  }
+#if USE_PSRAM != 0
+    lv_disp_draw_buf_init(&draw_buf, buf, NULL, screenWidth * screenHeight);
+#else
+    lv_disp_draw_buf_init(&draw_buf, buf, NULL, screenWidth*30);
+#endif
 
     /*Initialize the display*/
     static lv_disp_drv_t disp_drv;
     lv_disp_drv_init( &disp_drv );
     /*Change the following line to your display resolution*/
-    disp_drv.hor_res = screenWidth;
-    disp_drv.ver_res = screenHeight;
+    disp_drv.hor_res = tft.width();
+    disp_drv.ver_res = tft.height();
     disp_drv.flush_cb = my_disp_flush;
     disp_drv.draw_buf = &draw_buf;
     lv_disp_drv_register( &disp_drv );
@@ -114,7 +138,7 @@ void setup()
     indev_drv.read_cb = my_touchpad_read;
     lv_indev_drv_register( &indev_drv );
 
-#if 1
+#if 0
     /* Create simple label */
     lv_obj_t *label = lv_label_create( lv_scr_act() );
     lv_label_set_text( label, LVGL_Arduino.c_str() );
@@ -126,10 +150,10 @@ void setup()
    */
 
     // uncomment one of these demos
-    lv_demo_widgets();            // OK
+    // lv_demo_widgets();            // OK
     // lv_demo_benchmark();          // OK
     // lv_demo_keypad_encoder();     // works, but I haven't an encoder
-    // lv_demo_music();              // NOK
+    lv_demo_music();              // NOK
     // lv_demo_printer();
     // lv_demo_stress();             // seems to be OK
 #endif

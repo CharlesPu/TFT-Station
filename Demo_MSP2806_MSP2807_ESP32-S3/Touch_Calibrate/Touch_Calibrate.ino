@@ -6,8 +6,8 @@
 */
 
 
-    // uint16_t calData[5] = { 481, 3345, 435, 3248, 1 };
-    // tft.setTouch(calData);
+// uint16_t calData[5] = { 398, 3455, 356, 3344, 1 };
+// tft.setTouch(calData);
 
 
 #include <SPI.h>
@@ -54,10 +54,10 @@ void loop(void) {
   // Draw a white spot at the detected coordinates
   if (pressed) {
     tft.fillCircle(x, y, 2, TFT_WHITE);
-    //Serial.print("x,y = ");
-    //Serial.print(x);
-    //Serial.print(",");
-    //Serial.println(y);
+    Serial.print("x,y = ");
+    Serial.print(x);
+    Serial.print(",");
+    Serial.println(y);
   }
 }
 

@@ -1,0 +1,25 @@
+*************************** START ****************************
+START TIME: 202408152055
+CONNECT BAUD: 115200
+set state: ESP_DL_SYNC
+serial port opened
+-----------
+baud:115200
+root baud:115200
+-------------
+===============BAUD : 115200===============CALL DEVICE SYNC
+connecting...
+mac l: 0x9e052c34
+mac h: 0xf09e
+get mac res: 1
+get flash id : 0x00182085
+manufacturer_id: 0x85
+device_id: 0x2018
+Wrote 755328 bytes (406324 compressed) at 0x00000000 in 6.6 seconds (effective 921.5 kbit/s)...
+Hash of data verified.
+Leaving...
+com closed
+Use time: 9 s
+Download result: PASS
+*************************** END ****************************
+
