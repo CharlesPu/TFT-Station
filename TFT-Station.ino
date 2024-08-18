@@ -9,11 +9,17 @@
 #include <Ticker.h>
 #include "window.h"
 #include "simsun23.h"
+#include "src/lvgl/lvgl.h"
+#include "src/gui_guider/gui_guider.h"
+#include "custom.h"
+#include "src/gui_guider/events_init.h"
 
 Ticker my_ticker;
+lv_ui guider_ui;
 
 int cnt = 0;
 bool flag_last;
+#define USE_PSRAM 1
 
 void setup() 
 {
@@ -21,8 +27,11 @@ void setup()
 
   my_lcd.init();
   my_lcd.setRotation(3);
+  uint16_t calData[5] = { 398, 3455, 356, 3344, 1 };
+  my_lcd.setTouch(calData);
+  // my_lcd.fillScreen(TFT_BLACK); 
 
-  // my_ticker.attach_ms(3 * 1000, ticker_cb);
+  my_ticker.attach_ms(5, ticker_cb);
 
 // 在 ESP8266 上，可以创建的最大 16 位彩色 Sprite 大约为 160x128 像素，这会消耗 40 KB 的 RAM
 // 在 ESP32 上，16 位色深的 Sprite 限制为约 200x200 像素(~ 80KB），8 位色深的 sprite 限制为 320x240 像素（~76KB）
@@ -31,19 +40,36 @@ void setup()
   my_sprite_time.setSwapBytes(true);// todo
   my_sprite_time.createSprite(188, 62);
 
-  my_lcd.fillScreen(TFT_BLACK); 
-  draw_background_header();
-  draw_background_booter();
+  // lvgl
+  String LVGL_Arduino = "Hello Arduino! I am LVGL ";
+  LVGL_Arduino += String('V') + lv_version_major() + "." + lv_version_minor() + "." + lv_version_patch();
+  Serial.println( LVGL_Arduino );
+  lvgl_init();
+  setup_ui(&guider_ui);
+  custom_init(&guider_ui);
+  printf("init lvgl done!\r\n");
 
-  wifiInit();
-  draw_background_header_inited();
-	syncSysTime();
+  // lv_timer_handler(); /* note: let the GUI do its work first for wifi power_on disp*/
 
-	printf("init done!\r\n");
+  // event_params_power_on_t po_ep;
+  // po_ep = {"wifi connecting...", 10};trigger_power_on_progress(&po_ep);
+  // po_ep = {"time syncing...", 60};trigger_power_on_progress(&po_ep);
+	// syncSysTime();
+  // po_ep = {"done!", 100};trigger_power_on_progress(&po_ep);
+  
+  // draw_background_header();
+  // draw_background_booter();
+  // wifiInit();
+  // draw_background_header_inited();
+	// syncSysTime();
+	printf("init all done!..............................................\r\n");
 }
 
 void loop() 
 {
+  lv_timer_handler(); /* let the GUI do its work */
+  delay( 5 );
+#if 0
   struct tm timeinfo;
   if (!getLocalTime(&timeinfo))
   {
@@ -76,6 +102,7 @@ void loop()
   delay(INTERNAL_LOOP);
 
   // getTraffic();
+#endif
 }
 
 void draw_time(struct tm *timeinfo)
@@ -180,4 +207,90 @@ void draw_weather()
   my_lcd.unloadFont();             //释放字库,节省RAM
 }
 
-void ticker_cb(){}
+void ticker_cb(){
+  lv_tick_inc(5); /*Tell LittelvGL that 5 milliseconds were elapsed*/
+}
+
+void lvgl_init() 
+{
+  lv_init();
+
+  static lv_disp_draw_buf_t draw_buf;
+  static lv_color_t *buf;
+    
+#if USE_PSRAM != 0
+    buf = (lv_color_t *)heap_caps_malloc(sizeof(lv_color_t) * my_lcd.width() * my_lcd.height() , MALLOC_CAP_SPIRAM);
+#else
+    buf = (lv_color_t *)heap_caps_malloc(sizeof(lv_color_t) * my_lcd.width()*30 , MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT);
+#endif
+  if (!buf)
+  {
+    my_lcd.fillScreen(TFT_WHITE);
+    my_lcd.setTextColor(TFT_RED);
+    my_lcd.drawCentreString("LVGL display draw buffer allocate failed!",my_lcd.width()/2,my_lcd.height()/2-8,2);
+    return;
+  }
+#if USE_PSRAM != 0
+    lv_disp_draw_buf_init(&draw_buf, buf, NULL, my_lcd.width() * my_lcd.height());
+#else
+    lv_disp_draw_buf_init(&draw_buf, buf, NULL, my_lcd.width()*30);
+#endif
+
+    /*Initialize the display*/
+    static lv_disp_drv_t disp_drv;
+    lv_disp_drv_init( &disp_drv );
+    /*Change the following line to your display resolution*/
+    disp_drv.hor_res = my_lcd.width();
+    disp_drv.ver_res = my_lcd.height();
+    disp_drv.flush_cb = my_disp_flush;
+    disp_drv.draw_buf = &draw_buf;
+    lv_disp_drv_register( &disp_drv );
+
+    /*Initialize the (dummy) input device driver*/
+    static lv_indev_drv_t indev_drv;
+    lv_indev_drv_init( &indev_drv );
+    indev_drv.type = LV_INDEV_TYPE_POINTER;
+    indev_drv.read_cb = my_touchpad_read;
+    lv_indev_drv_register( &indev_drv );
+}
+
+/* Display flushing */
+void my_disp_flush( lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p )
+{
+    uint32_t w = ( area->x2 - area->x1 + 1 );
+    uint32_t h = ( area->y2 - area->y1 + 1 );
+
+    // tft.startWrite();
+    my_lcd.setAddrWindow( area->x1, area->y1, w, h );
+    my_lcd.pushColors( ( uint16_t * )&color_p->full, w * h, true);
+    // tft.endWrite();
+
+    lv_disp_flush_ready( disp );
+}
+
+/*Read the touchpad*/
+void my_touchpad_read( lv_indev_drv_t * indev_driver, lv_indev_data_t * data )
+{
+    uint16_t touchX, touchY;
+
+    bool touched = my_lcd.getTouch( &touchX, &touchY);
+
+    if( !touched )
+    {
+        data->state = LV_INDEV_STATE_REL;
+    }
+    else
+    {
+        data->state = LV_INDEV_STATE_PR;
+
+        /*Set the coordinates*/
+        data->point.x = touchX;
+        data->point.y = touchY;
+
+        Serial.print( "Data x " );
+        Serial.print( touchX );
+
+        Serial.print( ", y " );
+        Serial.println( touchY );
+    }
+}

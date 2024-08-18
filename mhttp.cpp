@@ -5,6 +5,9 @@
 #include <HTTPClient.h>
 #include <string.h>
 
+#include <WiFi.h>
+#include <WiFiMulti.h>
+
 // #include <ESP8266WiFi.h>
 // #include <ESP8266WiFiMulti.h>
 // #include <ESP8266HTTPClient.h>
@@ -31,7 +34,7 @@ void wifiInit(void){
 	// client->setInsecure();
 }
 
-weather_info_t getTodayWeather(String city){
+weather_info_t getTodayWeather(const char* city){
 	String url_xinzhi = WEATHER_URL_TODAY;
 	url_xinzhi = url_xinzhi + "?key=" + WEATHER_URL_KEY;
 	url_xinzhi = url_xinzhi + "&location=" + city;
@@ -74,7 +77,7 @@ weather_info_t getTodayWeather(String city){
 	return r;
 }
 
-weather_info_t getForecastWeather(String city){
+weather_info_t getForecastWeather(const char* city){
 	String url_xinzhi = WEATHER_URL_FORECAST;
 	url_xinzhi = url_xinzhi + "?key=" + WEATHER_URL_KEY;
 	url_xinzhi = url_xinzhi + "&location=" + city;

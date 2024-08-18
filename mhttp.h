@@ -6,19 +6,21 @@
 #include "weather.h"
 
 
-#include <WiFi.h>
-#include <WiFiMulti.h>
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 void wifiInit(void);
-weather_info_t getTodayWeather(String city);
-weather_info_t getForecastWeather(String city);
+weather_info_t getTodayWeather(const char* city);
+weather_info_t getForecastWeather(const char*  city);
 void httpTest(void);
 
 traffic_t getTraffic(void);
 
-
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif
