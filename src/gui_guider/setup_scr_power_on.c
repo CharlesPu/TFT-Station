@@ -33,7 +33,7 @@ void setup_scr_power_on(lv_ui *ui)
 	lv_obj_set_style_anim_time(ui->power_on_bar_1, 500, 0);
 	lv_bar_set_mode(ui->power_on_bar_1, LV_BAR_MODE_NORMAL);
 	lv_bar_set_range(ui->power_on_bar_1, 0, 100);
-	lv_bar_set_value(ui->power_on_bar_1, 20, LV_ANIM_ON);
+	lv_bar_set_value(ui->power_on_bar_1, 0, LV_ANIM_ON);
 	lv_obj_set_pos(ui->power_on_bar_1, 79, 127);
 	lv_obj_set_size(ui->power_on_bar_1, 160, 10);
 

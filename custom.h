@@ -19,25 +19,16 @@ typedef enum {
   PHASE_POWER_ON_WIFI_CONNECTING = 0,
   PHASE_POWER_ON_TIME_SYNCING,
   PHASE_POWER_ON_DONE,
+  PHASE_POWER_ON_FINISHED,// 用于跳转到下个页面
 }phase_power_on_e;
 
 typedef struct _event_params_power_on
 {
   phase_power_on_e phase;
   int32_t progress_val;
-  char* msg;
+  const char* msg;
 }event_params_power_on_t;
 
-static const char* c_phase_msg[]= {
-  "wifi connecting...",
-  "time syncing...",
-  "init done!"
-};
-static const int32_t c_phase_progress_val[]= {
-  40,
-  65,
-  100,
-};
 
 extern uint32_t MY_EVENT_POWER_ON;
 
