@@ -26,7 +26,7 @@ uint32_t MY_EVENT_POWER_ON;
 /**********************
  *      TYPEDEFS
  **********************/
-#define ANIM_INTERVAL 800 // ms
+#define ANIM_INTERVAL 10 // ms
 
 /**********************
  *  STATIC PROTOTYPES
@@ -35,62 +35,69 @@ uint32_t MY_EVENT_POWER_ON;
 /**********************
  *  STATIC VARIABLES
  **********************/
-static const int32_t c_phase_progress_val[]= {
-  1,
-  20,
-  65,
-  95,
-  100,
+static init_phase_t phases[4] = {
+  {
+    PHASE_POWER_ON_STARTING,
+    1,
+    "station awake!",
+    NULL,
+  },
+  {
+    PHASE_POWER_ON_WIFI_CONNECTING,
+    20,
+    "wifi connecting...",
+    wifiInit,
+  },
+  {
+    PHASE_POWER_ON_TIME_SYNCING,
+    50,
+    "time syncing...",
+    syncSysTime,
+  },
+  {
+    PHASE_POWER_ON_DONE,
+    90,
+    "init done!",
+    NULL,
+  },
 };
-int PHASE_NUM = sizeof(c_phase_progress_val) / sizeof(int32_t);
 
-static void (*c_phase_func[])(void)= {
-  NULL,
-  wifiInit,
-  syncSysTime,
-  NULL,
-  NULL
-};
-static const char* c_phase_msg[]= {
-  "station starting!",
-  "wifi connecting...",
-  "time syncing...",
-  "init done!",""
-};
+int PHASE_NUM = sizeof(phases) / sizeof(init_phase_t);
+
 /**
  * Create a demo application
  */
 
-void trigger_power_on_progress(phase_power_on_e p)
-{
-  printf("trigger to phase: %d\r\n", p);
-  event_params_power_on_t ep;
-  ep.phase = p;
-  ep.msg = c_phase_msg[p];
-  ep.progress_val = c_phase_progress_val[p];
-  lv_event_send(guider_ui.power_on_bar_1, MY_EVENT_POWER_ON, &ep);
-}
+// void trigger_power_on_progress(phase_power_on_e p)
+// {
+//   printf("trigger to phase: %d\r\n", p);
+//   event_params_power_on_t ep;
+//   ep.phase = p;
+//   ep.msg = c_phase_msg[p];
+//   ep.progress_val = c_phase_progress_val[p];
+//   lv_event_send(guider_ui.power_on_bar_1, MY_EVENT_POWER_ON, &ep);
+// }
 
 static void m_power_on_bar_1_event_handler (lv_event_t *e)
 {
   lv_event_code_t code = lv_event_get_code(e);
   printf("m_power_on_bar_1_event_handler get event code: %d %d\r\n",code, lv_bar_get_value(guider_ui.power_on_bar_1));
 
-  if (code == MY_EVENT_POWER_ON) {
-    int32_t set_val = ((event_params_power_on_t*)lv_event_get_param(e))->progress_val;
-    char *msg = ((event_params_power_on_t*)lv_event_get_param(e))->msg;
-    phase_power_on_e phase = ((event_params_power_on_t*)lv_event_get_param(e))->phase;
+  // if (code == MY_EVENT_POWER_ON) {
+  //   int32_t set_val = ((event_params_power_on_t*)lv_event_get_param(e))->progress_val;
+  //   char *msg = ((event_params_power_on_t*)lv_event_get_param(e))->msg;
+  //   phase_power_on_e phase = ((event_params_power_on_t*)lv_event_get_param(e))->phase;
 
-    printf("MY_EVENT_POWER_ON enter, %d, %s, %d\r\n", set_val, msg, phase);
-    if (phase = PHASE_POWER_ON_FINISHED) {
-      printf("MY_EVENT_POWER_ON progress_val done\r\n");
-      // 这里不能多次进入，否则会死机
-      ui_load_scr_animation(&guider_ui, &guider_ui.home, guider_ui.home_del, &guider_ui.power_on_del, setup_scr_home, LV_SCR_LOAD_ANIM_OVER_RIGHT, 500, 200, true, true);
-      return;
-    }
-    lv_label_set_text(guider_ui.power_on_label_1, msg);
+  //   printf("MY_EVENT_POWER_ON enter, %d, %s, %d\r\n", set_val, msg, phase);
+  //   if (phase = PHASE_POWER_ON_FINISHED) {
+  //     printf("MY_EVENT_POWER_ON progress_val done\r\n");
+  //     // 这里不能多次进入，否则会死机
+  //     ui_load_scr_animation(&guider_ui, &guider_ui.home, guider_ui.home_del, &guider_ui.power_on_del, setup_scr_home, LV_SCR_LOAD_ANIM_OVER_RIGHT, 500, 200, true, true);
+  //     return;
+  //   }
+  //   lv_label_set_text(guider_ui.power_on_label_1, msg);
 
-    lv_bar_set_value(guider_ui.power_on_bar_1, set_val, LV_ANIM_OFF);
+  //   lv_bar_set_value(guider_ui.power_on_bar_1, set_val, LV_ANIM_OFF);
     
     // lv_refr_now(NULL); // 强制刷新
     // if (set_val >= lv_bar_get_max_value(guider_ui.power_on_bar_1)){
@@ -98,7 +105,7 @@ static void m_power_on_bar_1_event_handler (lv_event_t *e)
     //     // 这里不能多次进入，否则会死机
     //     ui_load_scr_animation(&guider_ui, &guider_ui.home, guider_ui.home_del, &guider_ui.power_on_del, setup_scr_home, LV_SCR_LOAD_ANIM_OVER_RIGHT, 500, 200, true, true);
     //   }
-  }
+  // }
   // else if (code == LV_EVENT_PRESSED) {
   //   int32_t val = lv_bar_get_value(guider_ui.power_on_bar_1);
   //   uint32_t anim_st = ((lv_bar_t *)(guider_ui.power_on_bar_1))->cur_value_anim.anim_state;
@@ -112,7 +119,7 @@ static void m_power_on_bar_1_event_handler (lv_event_t *e)
   //   }
   // }
 }
-void bar_show_2()
+void bar_show_adjust()
 {
    static lv_style_t style_bg;            //创建bar背景样式
    static lv_style_t style_indic;         //创建bar指示器样式
@@ -134,64 +141,40 @@ void bar_show_2()
    lv_obj_add_style(bar,&style_bg,0);     //创添样式
    lv_obj_add_style(bar,&style_indic,LV_PART_INDICATOR);//添加样式
 
-   lv_obj_set_size(bar,200,20);           //设置样式尺寸
+   lv_obj_set_size(bar,250,20);           //设置样式尺寸
    lv_obj_center(bar);                    //居中显示
-   lv_bar_set_value(bar,0,LV_ANIM_ON);  //设置初始值
+   lv_bar_set_value(bar,0,LV_ANIM_OFF);  //设置初始值
 }
-// lv_timer_t* tm1;
-// lv_timer_t *tm2;
-// lv_timer_t *tm3;
-
-// 先显示，再执行用户任务...
-// void station_init3(lv_timer_t * tm)
-// {
-//   lv_timer_del(tm3);
-//   syncSysTime();
-//   trigger_power_on_progress(PHASE_POWER_ON_DONE);
-// }
-// void station_init2(lv_timer_t * tm)
-// {
-//   lv_timer_del(tm2);
-
-//   wifiInit();
-//   trigger_power_on_progress(PHASE_POWER_ON_TIME_SYNCING);
-//   tm3 = lv_timer_create(station_init3, ANIM_INTERVAL+10, NULL);
-//   lv_timer_set_repeat_count(tm3, 1);
-// }
-// void station_init1(lv_timer_t * tm)
-// {
-//   lv_timer_del(tm1);
-//   trigger_power_on_progress(PHASE_POWER_ON_WIFI_CONNECTING);
-//   tm2 = lv_timer_create(station_init2, ANIM_INTERVAL+10, NULL);
-//   lv_timer_set_repeat_count(tm2, 1);
-// }
 
 int32_t x = 0;
+int32_t x_max;
 void station_init(lv_timer_t * tm)
 {
   x++;
+
+  if (x >= x_max) {
+    printf("MY_EVENT_POWER_ON progress_val done\r\n");
+    // 这里不能多次进入，否则会死机
+    ui_load_scr_animation(&guider_ui, &guider_ui.home, guider_ui.home_del, &guider_ui.power_on_del, setup_scr_home, LV_SCR_LOAD_ANIM_OVER_RIGHT, 500, 200, true, true);
+    return;
+  }
   for (int i = 0; i < PHASE_NUM; i++)
   {
     phase_power_on_e p = i;
-    int proc_val = c_phase_progress_val[p];
-    void (*f)(void) = c_phase_func[p];
-    const char *msg = c_phase_msg[p];
+    int proc_val = phases[i].progress_val;
 
     if (x == proc_val) {
       printf("%d catch progress_val %d\r\n",p, x);
+      void (*f)(void)=NULL;
+      if (i > 0) { f = phases[i-1].exec;}
       if (f!=NULL) {f();}
-      // trigger_power_on_progress(p);
-      if (p == PHASE_POWER_ON_FINISHED) {
-        printf("MY_EVENT_POWER_ON progress_val done\r\n");
-        // 这里不能多次进入，否则会死机
-        ui_load_scr_animation(&guider_ui, &guider_ui.home, guider_ui.home_del, &guider_ui.power_on_del, setup_scr_home, LV_SCR_LOAD_ANIM_OVER_RIGHT, 500, 200, true, true);
-        return;
-      }
+      const char *msg = phases[i].msg;
       lv_label_set_text(guider_ui.power_on_label_1, msg);
     }
   }
   printf("set progress_val %d\r\n", x);
   lv_bar_set_value(guider_ui.power_on_bar_1, x, LV_ANIM_OFF);
+  lv_textprogress_set_value(guider_ui.power_on_textprogress_1, x);
 }
 
 void custom_init(lv_ui *ui)
@@ -201,14 +184,12 @@ void custom_init(lv_ui *ui)
 
   // lv_obj_add_event_cb(ui->power_on_bar_1, m_power_on_bar_1_event_handler, LV_EVENT_ALL, ui);
 
-  bar_show_2();
-
-  printf("custom init done!\r\n");
+  bar_show_adjust();
+  x_max = lv_bar_get_max_value(guider_ui.power_on_bar_1);
 
   // start trigger!
-  // tm1 = lv_timer_create(station_init1, 1, NULL);
-  // lv_timer_set_repeat_count(tm1, 1);
+  lv_timer_set_repeat_count(lv_timer_create(station_init, ANIM_INTERVAL, NULL), x_max);
 
-  lv_timer_set_repeat_count(lv_timer_create(station_init, 80, NULL), 100);
+  printf("custom init done!\r\n");
 }
 

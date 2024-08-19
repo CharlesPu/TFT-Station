@@ -12,8 +12,6 @@
 #include "gui_guider.h"
 #include "events_init.h"
 #include "widgets_init.h"
-#include "../../custom.h"
-
 
 
 int home_digital_clock_1_min_value = 25;

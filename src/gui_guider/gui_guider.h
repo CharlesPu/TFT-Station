@@ -22,6 +22,7 @@ typedef struct
 	bool power_on_del;
 	lv_obj_t *power_on_bar_1;
 	lv_obj_t *power_on_label_1;
+	lv_obj_t *power_on_textprogress_1;
 	lv_obj_t *home;
 	bool home_del;
 	lv_obj_t *home_cont_1;

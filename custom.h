@@ -16,10 +16,10 @@ extern "C" {
 #include "src/gui_guider/gui_guider.h"
 
 typedef enum {
-  PHASE_POWER_ON_WIFI_CONNECTING = 0,
+  PHASE_POWER_ON_STARTING = 0,
+  PHASE_POWER_ON_WIFI_CONNECTING,
   PHASE_POWER_ON_TIME_SYNCING,
   PHASE_POWER_ON_DONE,
-  PHASE_POWER_ON_FINISHED,// 用于跳转到下个页面
 }phase_power_on_e;
 
 typedef struct _event_params_power_on
@@ -28,6 +28,14 @@ typedef struct _event_params_power_on
   int32_t progress_val;
   const char* msg;
 }event_params_power_on_t;
+
+typedef struct _init_phase
+{
+  phase_power_on_e phase;
+  int32_t progress_val;
+  const char* msg;
+  void (*exec)(void);
+}init_phase_t;
 
 
 extern uint32_t MY_EVENT_POWER_ON;

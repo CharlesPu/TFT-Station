@@ -16,39 +16,6 @@
 #endif
 
 
-static void power_on_event_handler (lv_event_t *e)
-{
-    lv_event_code_t code = lv_event_get_code(e);
-    switch (code) {
-	case LV_EVENT_SCREEN_LOADED:
-	{
-		break;
-	}
-    default:
-        break;
-    }
-}
-
-static void power_on_bar_1_event_handler (lv_event_t *e)
-{
-    lv_event_code_t code = lv_event_get_code(e);
-    switch (code) {
-	case LV_EVENT_RELEASED:
-	{
-		ui_load_scr_animation(&guider_ui, &guider_ui.home, guider_ui.home_del, &guider_ui.power_on_del, setup_scr_home, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200, true, true);
-		break;
-	}
-    default:
-        break;
-    }
-}
-
-void events_init_power_on (lv_ui *ui)
-{
-	// lv_obj_add_event_cb(ui->power_on, power_on_event_handler, LV_EVENT_ALL, ui);
-	// lv_obj_add_event_cb(ui->power_on_bar_1, power_on_bar_1_event_handler, LV_EVENT_ALL, ui);
-}
-
 
 void events_init(lv_ui *ui)
 {
