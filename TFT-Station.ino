@@ -29,7 +29,6 @@ void setup()
   my_lcd.setRotation(3);
   uint16_t calData[5] = { 398, 3455, 356, 3344, 1 };
   my_lcd.setTouch(calData);
-  // my_lcd.fillScreen(TFT_BLACK); 
 
   my_ticker.attach_ms(5, ticker_cb);
 
@@ -48,14 +47,6 @@ void setup()
   setup_ui(&guider_ui);
   custom_init(&guider_ui);
   printf("init lvgl done!\r\n");
-
-  // lv_timer_handler(); /* note: let the GUI do its work first for wifi power_on disp*/
-
-  // event_params_power_on_t po_ep;
-  // po_ep = {"wifi connecting...", 10};trigger_power_on_progress(&po_ep);
-  // po_ep = {"time syncing...", 60};trigger_power_on_progress(&po_ep);
-	// syncSysTime();
-  // po_ep = {"done!", 100};trigger_power_on_progress(&po_ep);
   
   // draw_background_header();
   // draw_background_booter();

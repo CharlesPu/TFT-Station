@@ -59,14 +59,14 @@ void setup_scr_power_on(lv_ui *ui)
 	ui->power_on_label_1 = lv_label_create(ui->power_on);
 	lv_label_set_text(ui->power_on_label_1, "starting...");
 	lv_label_set_long_mode(ui->power_on_label_1, LV_LABEL_LONG_WRAP);
-	lv_obj_set_pos(ui->power_on_label_1, 72, 79);
+	lv_obj_set_pos(ui->power_on_label_1, 73, 90);
 	lv_obj_set_size(ui->power_on_label_1, 174, 32);
 
 	//Write style for power_on_label_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_border_width(ui->power_on_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_radius(ui->power_on_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(ui->power_on_label_1, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_font(ui->power_on_label_1, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_font(ui->power_on_label_1, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->power_on_label_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_letter_space(ui->power_on_label_1, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_line_space(ui->power_on_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -83,23 +83,18 @@ void setup_scr_power_on(lv_ui *ui)
 	lv_textprogress_set_range_value(ui->power_on_textprogress_1, 0, 100, 0, 0);
 	lv_textprogress_set_decimal(ui->power_on_textprogress_1, 2);
 	lv_textprogress_set_value(ui->power_on_textprogress_1, 80);
-	lv_obj_set_pos(ui->power_on_textprogress_1, 111, 149);
-	lv_obj_set_size(ui->power_on_textprogress_1, 100, 32);
+	lv_obj_set_pos(ui->power_on_textprogress_1, 127, 146);
+	lv_obj_set_size(ui->power_on_textprogress_1, 55, 16);
 
 	//Write style for power_on_textprogress_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-	lv_obj_set_style_radius(ui->power_on_textprogress_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(ui->power_on_textprogress_1, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(ui->power_on_textprogress_1, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_font(ui->power_on_textprogress_1, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_font(ui->power_on_textprogress_1, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->power_on_textprogress_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_letter_space(ui->power_on_textprogress_1, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_letter_space(ui->power_on_textprogress_1, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_align(ui->power_on_textprogress_1, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_opa(ui->power_on_textprogress_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_color(ui->power_on_textprogress_1, lv_color_hex(0x2195f6), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_grad_dir(ui->power_on_textprogress_1, LV_GRAD_DIR_VER, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_grad_color(ui->power_on_textprogress_1, lv_color_hex(0x2195f6), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_main_stop(ui->power_on_textprogress_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_grad_stop(ui->power_on_textprogress_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_pad_top(ui->power_on_textprogress_1, 8, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_opa(ui->power_on_textprogress_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_pad_top(ui->power_on_textprogress_1, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_pad_right(ui->power_on_textprogress_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_pad_left(ui->power_on_textprogress_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_shadow_width(ui->power_on_textprogress_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);

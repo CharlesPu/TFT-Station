@@ -237,14 +237,14 @@
  *-----------*/
 
 /*1: Show CPU usage and FPS count*/
-#define LV_USE_PERF_MONITOR 1
+#define LV_USE_PERF_MONITOR 0
 #if LV_USE_PERF_MONITOR
 #define LV_USE_PERF_MONITOR_POS LV_ALIGN_BOTTOM_RIGHT
 #endif    /* LV_USE_PERF_MONITOR */
 
 /*1: Show the used memory and the memory fragmentation
  * Requires LV_MEM_CUSTOM = 0*/
-#define LV_USE_MEM_MONITOR 1
+#define LV_USE_MEM_MONITOR 0
 #if LV_USE_MEM_MONITOR
 #define LV_USE_MEM_MONITOR_POS LV_ALIGN_BOTTOM_LEFT
 #endif    /* LV_USE_MEM_MONITOR */
@@ -432,15 +432,15 @@
 
 #define LV_USE_BAR 1
 
-#define LV_USE_BTN 0
+#define LV_USE_BTN 1
 
-#define LV_USE_BTNMATRIX 0
+#define LV_USE_BTNMATRIX 1
 
 #define LV_USE_CANVAS 0
 
 #define LV_USE_CHECKBOX 0
 
-#define LV_USE_DROPDOWN 0
+#define LV_USE_DROPDOWN 1
 
 #define LV_USE_IMG 1
 
@@ -483,7 +483,7 @@
 
 #define LV_USE_ANIMIMG 0
 
-#define LV_USE_CALENDAR 0
+#define LV_USE_CALENDAR 1
 #if LV_USE_CALENDAR
 #define LV_CALENDAR_WEEK_STARTS_MONDAY 0
 #if LV_CALENDAR_WEEK_STARTS_MONDAY == 0
@@ -528,7 +528,7 @@
 
 #define LV_USE_SPINNER 0
 
-#define LV_USE_TABVIEW 0
+#define LV_USE_TABVIEW 1
 
 #define LV_USE_TILEVIEW 0
 

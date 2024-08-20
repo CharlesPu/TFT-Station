@@ -25,8 +25,16 @@ typedef struct
 	lv_obj_t *power_on_textprogress_1;
 	lv_obj_t *home;
 	bool home_del;
-	lv_obj_t *home_cont_1;
+	lv_obj_t *home_tabview_1;
+	lv_obj_t *home_tabview_1_tab_1;
+	lv_obj_t *home_tabview_1_tab_2;
+	lv_obj_t *home_tabview_1_tab_3;
 	lv_obj_t *home_digital_clock_1;
+	lv_obj_t *home_calendar_1;
+	lv_obj_t *home_cont_1;
+	lv_obj_t *home_label_1;
+	lv_obj_t *home_datetext_1;
+	lv_obj_t *home_label_2;
 }lv_ui;
 
 typedef void (*ui_setup_scr_t)(lv_ui * ui);
@@ -52,7 +60,9 @@ extern lv_ui guider_ui;
 void setup_scr_power_on(lv_ui *ui);
 void setup_scr_home(lv_ui *ui);
 
+LV_FONT_DECLARE(lv_font_montserratMedium_12)
 LV_FONT_DECLARE(lv_font_montserratMedium_16)
+LV_FONT_DECLARE(lv_font_bangtamvan_kvjmd_72)
 
 
 #ifdef __cplusplus

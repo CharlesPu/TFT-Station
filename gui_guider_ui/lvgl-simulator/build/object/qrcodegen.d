@@ -1,5 +1,5 @@
 build/object/qrcodegen.o: \
- f:\gui-guider-projects\demo\lvgl\src\extra\libs\qrcode\qrcodegen.c \
- f:\gui-guider-projects\demo\lvgl\src\extra\libs\qrcode\qrcodegen.h
+ e:\mcu\arduino\tft-station\gui_guider_ui\lvgl\src\extra\libs\qrcode\qrcodegen.c \
+ e:\mcu\arduino\tft-station\gui_guider_ui\lvgl\src\extra\libs\qrcode\qrcodegen.h
 
-f:\gui-guider-projects\demo\lvgl\src\extra\libs\qrcode\qrcodegen.h:
+e:\mcu\arduino\tft-station\gui_guider_ui\lvgl\src\extra\libs\qrcode\qrcodegen.h:

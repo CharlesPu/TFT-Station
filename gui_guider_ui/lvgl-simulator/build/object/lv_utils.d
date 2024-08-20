@@ -1,5 +1,5 @@
 build/object/lv_utils.o: \
- f:\gui-guider-projects\demo\lvgl\src\misc\lv_utils.c \
- f:\gui-guider-projects\demo\lvgl\src\misc\lv_utils.h
+ e:\mcu\arduino\tft-station\gui_guider_ui\lvgl\src\misc\lv_utils.c \
+ e:\mcu\arduino\tft-station\gui_guider_ui\lvgl\src\misc\lv_utils.h
 
-f:\gui-guider-projects\demo\lvgl\src\misc\lv_utils.h:
+e:\mcu\arduino\tft-station\gui_guider_ui\lvgl\src\misc\lv_utils.h:

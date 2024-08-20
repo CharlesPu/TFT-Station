@@ -1,14 +1,14 @@
 build/object/ST7565.o: \
- F:/GUI-Guider-Projects/demo/lvgl-simulator/lv_drivers/display/ST7565.c \
- F:/GUI-Guider-Projects/demo/lvgl-simulator/lv_drivers/display/ST7565.h \
- F:/GUI-Guider-Projects/demo/lvgl-simulator/lv_drv_conf.h \
- F:/GUI-Guider-Projects/demo/lvgl-simulator/lv_conf.h \
- f:\gui-guider-projects\demo\custom\lv_conf_ext.h
+ E:/mcu/Arduino/TFT-Station/gui_guider_ui/lvgl-simulator/lv_drivers/display/ST7565.c \
+ E:/mcu/Arduino/TFT-Station/gui_guider_ui/lvgl-simulator/lv_drivers/display/ST7565.h \
+ E:/mcu/Arduino/TFT-Station/gui_guider_ui/lvgl-simulator/lv_drv_conf.h \
+ E:/mcu/Arduino/TFT-Station/gui_guider_ui/lvgl-simulator/lv_conf.h \
+ e:\mcu\arduino\tft-station\gui_guider_ui\custom\lv_conf_ext.h
 
-F:/GUI-Guider-Projects/demo/lvgl-simulator/lv_drivers/display/ST7565.h:
+E:/mcu/Arduino/TFT-Station/gui_guider_ui/lvgl-simulator/lv_drivers/display/ST7565.h:
 
-F:/GUI-Guider-Projects/demo/lvgl-simulator/lv_drv_conf.h:
+E:/mcu/Arduino/TFT-Station/gui_guider_ui/lvgl-simulator/lv_drv_conf.h:
 
-F:/GUI-Guider-Projects/demo/lvgl-simulator/lv_conf.h:
+E:/mcu/Arduino/TFT-Station/gui_guider_ui/lvgl-simulator/lv_conf.h:
 
-f:\gui-guider-projects\demo\custom\lv_conf_ext.h:
+e:\mcu\arduino\tft-station\gui_guider_ui\custom\lv_conf_ext.h:

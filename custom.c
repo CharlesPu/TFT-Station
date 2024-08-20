@@ -141,7 +141,7 @@ void bar_show_adjust()
    lv_obj_add_style(bar,&style_bg,0);     //创添样式
    lv_obj_add_style(bar,&style_indic,LV_PART_INDICATOR);//添加样式
 
-   lv_obj_set_size(bar,250,20);           //设置样式尺寸
+   lv_obj_set_size(bar,260,20);           //设置样式尺寸
    lv_obj_center(bar);                    //居中显示
    lv_bar_set_value(bar,0,LV_ANIM_OFF);  //设置初始值
 }
@@ -155,7 +155,7 @@ void station_init(lv_timer_t * tm)
   if (x >= x_max) {
     printf("MY_EVENT_POWER_ON progress_val done\r\n");
     // 这里不能多次进入，否则会死机
-    ui_load_scr_animation(&guider_ui, &guider_ui.home, guider_ui.home_del, &guider_ui.power_on_del, setup_scr_home, LV_SCR_LOAD_ANIM_OVER_RIGHT, 500, 200, true, true);
+    ui_load_scr_animation(&guider_ui, &guider_ui.home, guider_ui.home_del, &guider_ui.power_on_del, setup_scr_home, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 500, 200, true, true);
     return;
   }
   for (int i = 0; i < PHASE_NUM; i++)

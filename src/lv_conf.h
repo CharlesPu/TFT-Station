@@ -581,7 +581,7 @@
 #define LV_USE_FS_STDIO 0
 #if LV_USE_FS_STDIO
 /*Set an upper cased letter on which the drive will accessible (e.g. 'A')*/
-#define LV_FS_STDIO_LETTER 'F'
+#define LV_FS_STDIO_LETTER 'E'
 /*Set the working directory. File/directory paths will be appended to it.*/
 #define LV_FS_STDIO_PATH ""
 /*>0 to cache this number of bytes in lv_fs_read()*/
@@ -722,6 +722,5 @@
 #define LV_USE_GUIDER_SIMULATOR 1
 /* Enable the FreeMaster integration */
 #define LV_USE_FREEMASTER 0
-// #include "lv_conf_ext.h"
 
 #endif

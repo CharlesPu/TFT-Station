@@ -24,6 +24,13 @@ void clock_count(int *hour, int *min, int *sec);
 
 
 void home_digital_clock_1_timer(lv_timer_t *timer);
+extern lv_calendar_date_t home_calendar_1_today;
+extern lv_calendar_date_t home_calendar_1_highlihted_days[1];
+void home_calendar_1_event_handler(lv_event_t * e);
+void home_calendar_1_draw_part_begin_event_cb(lv_event_t * e);
+void home_datetext_1_event_handler(lv_event_t *e);
+void home_datetext_1_calendar_event_handler(lv_event_t *e);
+void home_datetext_1_init_calendar(lv_obj_t *obj, char * s);
 
 #ifdef __cplusplus
 }

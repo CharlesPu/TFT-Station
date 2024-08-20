@@ -16,7 +16,8 @@ extern "C" {
 #include "gui_guider.h"
 
 typedef enum {
-  PHASE_POWER_ON_WIFI_CONNECTING = 0,
+  PHASE_POWER_ON_STARTING = 0,
+  PHASE_POWER_ON_WIFI_CONNECTING,
   PHASE_POWER_ON_TIME_SYNCING,
   PHASE_POWER_ON_DONE,
 }phase_power_on_e;
@@ -25,19 +26,17 @@ typedef struct _event_params_power_on
 {
   phase_power_on_e phase;
   int32_t progress_val;
-  char* msg;
+  const char* msg;
 }event_params_power_on_t;
 
-static const char* c_phase_msg[]= {
-  "wifi connecting...",
-  "time syncing...",
-  "init done!"
-};
-static const int32_t c_phase_progress_val[]= {
-  40,
-  65,
-  100,
-};
+typedef struct _init_phase
+{
+  phase_power_on_e phase;
+  int32_t progress_val;
+  const char* msg;
+  void (*exec)(void);
+}init_phase_t;
+
 
 extern uint32_t MY_EVENT_POWER_ON;
 

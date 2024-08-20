@@ -22,3 +22,5 @@ rad.json
 TestResults.xml
 
 config.private.h
+
+gui_guider_ui/lvgl-simulator/build/*
