@@ -14,6 +14,7 @@ extern "C" {
 #endif
 
 #include "src/gui_guider/gui_guider.h"
+#include "src/gui_guider/guider_customer_fonts.h"
 
 typedef enum {
   PHASE_POWER_ON_STARTING = 0,
@@ -22,12 +23,12 @@ typedef enum {
   PHASE_POWER_ON_DONE,
 }phase_power_on_e;
 
-typedef struct _event_params_power_on
-{
-  phase_power_on_e phase;
-  int32_t progress_val;
-  const char* msg;
-}event_params_power_on_t;
+// typedef struct _event_params_power_on
+// {
+//   phase_power_on_e phase;
+//   int32_t progress_val;
+//   const char* msg;
+// }event_params_power_on_t;
 
 typedef struct _init_phase
 {

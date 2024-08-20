@@ -127,47 +127,47 @@ void home_calendar_1_draw_part_begin_event_cb(lv_event_t * e)
 		lv_calendar_set_highlighted_dates(obj, &date, 1);
 	}
 }
-static lv_obj_t * home_datetext_1_calendar;
+static lv_obj_t * home_datetext_date_calendar;
 
-void home_datetext_1_event_handler(lv_event_t *e)
+void home_datetext_date_event_handler(lv_event_t *e)
 {
 	lv_event_code_t code = lv_event_get_code(e);
 	lv_obj_t * btn = lv_event_get_target(e);
 	if(code == LV_EVENT_FOCUSED){
 		char * s = lv_label_get_text(btn);
-		if(home_datetext_1_calendar == NULL){
-			home_datetext_1_init_calendar(btn, s);
+		if(home_datetext_date_calendar == NULL){
+			home_datetext_date_init_calendar(btn, s);
 		}
 	}
 }
 
-void home_datetext_1_init_calendar(lv_obj_t *obj, char * s)
+void home_datetext_date_init_calendar(lv_obj_t *obj, char * s)
 {
-	if (home_datetext_1_calendar == NULL){
+	if (home_datetext_date_calendar == NULL){
 		lv_obj_add_flag(lv_layer_top(), LV_OBJ_FLAG_CLICKABLE);
-		home_datetext_1_calendar = lv_calendar_create(lv_layer_top());
+		home_datetext_date_calendar = lv_calendar_create(lv_layer_top());
 		lv_obj_t * scr = lv_obj_get_screen(obj);
 		lv_coord_t scr_height = lv_obj_get_height(scr);
 		lv_coord_t scr_width = lv_obj_get_width(scr);
-		lv_obj_set_size(home_datetext_1_calendar, scr_width * 0.8, scr_height * 0.8);
+		lv_obj_set_size(home_datetext_date_calendar, scr_width * 0.8, scr_height * 0.8);
 		char * year = strtok(s, "/");
 		char * month = strtok(NULL, "/");
 		char * day = strtok(NULL, "/");
-		lv_calendar_set_showed_date(home_datetext_1_calendar, atoi(year), atoi(month));
+		lv_calendar_set_showed_date(home_datetext_date_calendar, atoi(year), atoi(month));
 		lv_calendar_date_t highlighted_days[1];       /*Only its pointer will be saved so should be static*/
 		highlighted_days[0].year = atoi(year);
 		highlighted_days[0].month = atoi(month);
 		highlighted_days[0].day = atoi(day);
-		lv_calendar_set_highlighted_dates(home_datetext_1_calendar, highlighted_days, 1);
-		lv_obj_align(home_datetext_1_calendar,LV_ALIGN_CENTER, 0, 0);
+		lv_calendar_set_highlighted_dates(home_datetext_date_calendar, highlighted_days, 1);
+		lv_obj_align(home_datetext_date_calendar,LV_ALIGN_CENTER, 0, 0);
  
-		lv_obj_add_event_cb(home_datetext_1_calendar, home_datetext_1_calendar_event_handler, LV_EVENT_ALL,NULL);
-		lv_calendar_header_arrow_create(home_datetext_1_calendar);
+		lv_obj_add_event_cb(home_datetext_date_calendar, home_datetext_date_calendar_event_handler, LV_EVENT_ALL,NULL);
+		lv_calendar_header_arrow_create(home_datetext_date_calendar);
 		lv_obj_update_layout(scr);
 	}
 }
 
-void home_datetext_1_calendar_event_handler(lv_event_t *e)
+void home_datetext_date_calendar_event_handler(lv_event_t *e)
 {
 	lv_event_code_t code = lv_event_get_code(e);
 	lv_obj_t * obj = lv_event_get_current_target(e);
@@ -177,11 +177,11 @@ void home_datetext_1_calendar_event_handler(lv_event_t *e)
 		lv_calendar_get_pressed_date(obj,&date);
 		char buf[16];
 		lv_snprintf(buf,sizeof(buf),"%d/%02d/%02d", date.year, date.month ,date.day);
-		lv_label_set_text(guider_ui.home_datetext_1, buf);
+		lv_label_set_text(guider_ui.home_datetext_date, buf);
 		lv_obj_clear_flag(lv_layer_top(), LV_OBJ_FLAG_CLICKABLE);
 		lv_obj_set_style_bg_opa(lv_layer_top(), LV_OPA_TRANSP, 0);
-		lv_obj_del(home_datetext_1_calendar);
-		home_datetext_1_calendar = NULL;
+		lv_obj_del(home_datetext_date_calendar);
+		home_datetext_date_calendar = NULL;
 	}
 }
 

@@ -17,6 +17,7 @@
 #include "custom.h"
 #include "mhttp.h"
 #include "mtime.h"
+#include "weather.h"
 
 /*********************
  *      DEFINES
@@ -26,7 +27,8 @@ uint32_t MY_EVENT_POWER_ON;
 /**********************
  *      TYPEDEFS
  **********************/
-#define ANIM_INTERVAL 10 // ms
+#define INTERVAL_POWERON_BAR_ANIM 10 // ms
+#define INTERVAL_WEATHER 10000 // ms
 
 /**********************
  *  STATIC PROTOTYPES
@@ -67,58 +69,30 @@ int PHASE_NUM = sizeof(phases) / sizeof(init_phase_t);
 /**
  * Create a demo application
  */
-
-// void trigger_power_on_progress(phase_power_on_e p)
-// {
-//   printf("trigger to phase: %d\r\n", p);
-//   event_params_power_on_t ep;
-//   ep.phase = p;
-//   ep.msg = c_phase_msg[p];
-//   ep.progress_val = c_phase_progress_val[p];
-//   lv_event_send(guider_ui.power_on_bar_1, MY_EVENT_POWER_ON, &ep);
-// }
-
-static void m_power_on_bar_1_event_handler (lv_event_t *e)
+////////////////////////////////// home page
+void weather_loop() 
 {
-  lv_event_code_t code = lv_event_get_code(e);
-  printf("m_power_on_bar_1_event_handler get event code: %d %d\r\n",code, lv_bar_get_value(guider_ui.power_on_bar_1));
+  weather_info_t w = getForecastWeather("hangzhou");
 
-  // if (code == MY_EVENT_POWER_ON) {
-  //   int32_t set_val = ((event_params_power_on_t*)lv_event_get_param(e))->progress_val;
-  //   char *msg = ((event_params_power_on_t*)lv_event_get_param(e))->msg;
-  //   phase_power_on_e phase = ((event_params_power_on_t*)lv_event_get_param(e))->phase;
+  // 城市
+  lv_label_set_text(guider_ui.home_label_posi, w.weathers[0].city);
 
-  //   printf("MY_EVENT_POWER_ON enter, %d, %s, %d\r\n", set_val, msg, phase);
-  //   if (phase = PHASE_POWER_ON_FINISHED) {
-  //     printf("MY_EVENT_POWER_ON progress_val done\r\n");
-  //     // 这里不能多次进入，否则会死机
-  //     ui_load_scr_animation(&guider_ui, &guider_ui.home, guider_ui.home_del, &guider_ui.power_on_del, setup_scr_home, LV_SCR_LOAD_ANIM_OVER_RIGHT, 500, 200, true, true);
-  //     return;
-  //   }
-  //   lv_label_set_text(guider_ui.power_on_label_1, msg);
-
-  //   lv_bar_set_value(guider_ui.power_on_bar_1, set_val, LV_ANIM_OFF);
-    
-    // lv_refr_now(NULL); // 强制刷新
-    // if (set_val >= lv_bar_get_max_value(guider_ui.power_on_bar_1)){
-    //     printf("MY_EVENT_POWER_ON progress_val done\r\n");
-    //     // 这里不能多次进入，否则会死机
-    //     ui_load_scr_animation(&guider_ui, &guider_ui.home, guider_ui.home_del, &guider_ui.power_on_del, setup_scr_home, LV_SCR_LOAD_ANIM_OVER_RIGHT, 500, 200, true, true);
-    //   }
-  // }
-  // else if (code == LV_EVENT_PRESSED) {
-  //   int32_t val = lv_bar_get_value(guider_ui.power_on_bar_1);
-  //   uint32_t anim_st = ((lv_bar_t *)(guider_ui.power_on_bar_1))->cur_value_anim.anim_state;
-  //   if (anim_st == -1){
-  //     printf("xxxx %d %d\r\n", val ,anim_st);
-  //     if (val >= lv_bar_get_max_value(guider_ui.power_on_bar_1)){
-  //       printf("MY_EVENT_POWER_ON progress_val done\r\n");
-  //       // 这里不能多次进入，否则会死机
-  //       ui_load_scr_animation(&guider_ui, &guider_ui.home, guider_ui.home_del, &guider_ui.power_on_del, setup_scr_home, LV_SCR_LOAD_ANIM_OVER_RIGHT, 500, 200, true, true);
-  //     }
-  //   }
-  // }
+  const char *chns[3] = {};
+  for (int j = 0; j < w_chn_codes_len; j++)
+  {
+    for (int i = 0; i < 3; i++)
+    {
+      if(w_chn_codes[j].code == w.weathers[i].code) {
+        chns[i] = w_chn_codes[j].chinese;
+      }
+    }
+  }
+  printf("aaaa %s\r\n",chns[0]);
+  // todo  move to custom init
+  lv_obj_set_style_text_font(guider_ui.home_label_today_weather, &lv_customer_font_fangzhengxiaobiaosong_14, LV_PART_MAIN|LV_STATE_DEFAULT);
+  lv_label_set_text(guider_ui.home_label_today_weather, chns[0]);
 }
+
 void bar_show_adjust()
 {
    static lv_style_t style_bg;            //创建bar背景样式
@@ -129,7 +103,7 @@ void bar_show_adjust()
    lv_style_set_border_width(&style_bg,2);//设置边框宽度
    lv_style_set_pad_all(&style_bg,6);     //设置内边距
    lv_style_set_radius(&style_bg,6);      //设置圆角
-   lv_style_set_anim_time(&style_bg,ANIM_INTERVAL);//设置动画时间
+   lv_style_set_anim_time(&style_bg,INTERVAL_POWERON_BAR_ANIM);//设置动画时间
 
    lv_style_init(&style_indic);           //初始化样式
    lv_style_set_bg_opa(&style_indic,LV_OPA_COVER);//设置样式背景透明度
@@ -154,6 +128,7 @@ void station_init(lv_timer_t * tm)
 
   if (x >= x_max) {
     printf("MY_EVENT_POWER_ON progress_val done\r\n");
+    lv_timer_set_repeat_count(lv_timer_create(weather_loop, INTERVAL_WEATHER, NULL), -1);
     // 这里不能多次进入，否则会死机
     ui_load_scr_animation(&guider_ui, &guider_ui.home, guider_ui.home_del, &guider_ui.power_on_del, setup_scr_home, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 500, 200, true, true);
     return;
@@ -177,6 +152,8 @@ void station_init(lv_timer_t * tm)
   lv_textprogress_set_value(guider_ui.power_on_textprogress_1, x);
 }
 
+
+
 void custom_init(lv_ui *ui)
 {
     /* Add your codes here */
@@ -188,7 +165,7 @@ void custom_init(lv_ui *ui)
   x_max = lv_bar_get_max_value(guider_ui.power_on_bar_1);
 
   // start trigger!
-  lv_timer_set_repeat_count(lv_timer_create(station_init, ANIM_INTERVAL, NULL), x_max);
+  lv_timer_set_repeat_count(lv_timer_create(station_init, INTERVAL_POWERON_BAR_ANIM, NULL), x_max);
 
   printf("custom init done!\r\n");
 }

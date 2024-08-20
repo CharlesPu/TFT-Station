@@ -30,11 +30,16 @@ typedef struct
 	lv_obj_t *home_tabview_1_tab_2;
 	lv_obj_t *home_tabview_1_tab_3;
 	lv_obj_t *home_digital_clock_1;
+	lv_obj_t *home_cont_today;
+	lv_obj_t *home_label_today_weather;
+	lv_obj_t *home_label_today_temp;
+	lv_obj_t *home_label_today_humidity;
+	lv_obj_t *home_label_today_wind;
 	lv_obj_t *home_calendar_1;
-	lv_obj_t *home_cont_1;
-	lv_obj_t *home_label_1;
-	lv_obj_t *home_datetext_1;
-	lv_obj_t *home_label_2;
+	lv_obj_t *home_cont_bkg;
+	lv_obj_t *home_label_week;
+	lv_obj_t *home_datetext_date;
+	lv_obj_t *home_label_posi;
 }lv_ui;
 
 typedef void (*ui_setup_scr_t)(lv_ui * ui);
@@ -63,6 +68,7 @@ void setup_scr_home(lv_ui *ui);
 LV_FONT_DECLARE(lv_font_montserratMedium_12)
 LV_FONT_DECLARE(lv_font_montserratMedium_16)
 LV_FONT_DECLARE(lv_font_bangtamvan_kvjmd_72)
+LV_FONT_DECLARE(lv_font_fangzhengxiaobiaosong_14)
 
 
 #ifdef __cplusplus

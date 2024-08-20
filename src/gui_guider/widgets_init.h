@@ -28,9 +28,9 @@ extern lv_calendar_date_t home_calendar_1_today;
 extern lv_calendar_date_t home_calendar_1_highlihted_days[1];
 void home_calendar_1_event_handler(lv_event_t * e);
 void home_calendar_1_draw_part_begin_event_cb(lv_event_t * e);
-void home_datetext_1_event_handler(lv_event_t *e);
-void home_datetext_1_calendar_event_handler(lv_event_t *e);
-void home_datetext_1_init_calendar(lv_obj_t *obj, char * s);
+void home_datetext_date_event_handler(lv_event_t *e);
+void home_datetext_date_calendar_event_handler(lv_event_t *e);
+void home_datetext_date_init_calendar(lv_obj_t *obj, char * s);
 
 #ifdef __cplusplus
 }
