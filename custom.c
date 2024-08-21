@@ -11,6 +11,9 @@
 /*********************
  *      INCLUDES
  *********************/
+#include <Arduino.h>
+#include <stdlib.h>
+#include <time.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include "src/lvgl/lvgl.h"
@@ -28,7 +31,11 @@ uint32_t MY_EVENT_POWER_ON;
  *      TYPEDEFS
  **********************/
 #define INTERVAL_POWERON_BAR_ANIM 10 // ms
+
+#define INTERVAL_HOME_BASE 1000
 #define INTERVAL_WEATHER 10000 // ms
+#define INTERVAL_TIME_DATE_SYNC 13000
+#define INTERVAL_TIPS 15000
 
 /**********************
  *  STATIC PROTOTYPES
@@ -88,9 +95,73 @@ void weather_loop()
     }
   }
   printf("aaaa %s\r\n",chns[0]);
-  // todo  move to custom init
-  lv_obj_set_style_text_font(guider_ui.home_label_today_weather, &lv_customer_font_fangzhengxiaobiaosong_14, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+// 天气
+  char tmp[40] ={};
   lv_label_set_text(guider_ui.home_label_today_weather, chns[0]);
+  memset(tmp,0,sizeof(tmp));sprintf(tmp, "%s-%s℃", w.weathers[0].temp_low, w.weathers[0].temp_high);
+  lv_label_set_text(guider_ui.home_label_today_temp, tmp);
+  memset(tmp,0,sizeof(tmp));sprintf(tmp, "%s%%", w.weathers[0].humidity);
+  lv_label_set_text(guider_ui.home_label_today_humidity, tmp);
+  memset(tmp,0,sizeof(tmp));sprintf(tmp, "风力%d", w.weathers[0].wind_scale);
+  lv_label_set_text(guider_ui.home_label_today_wind, tmp);
+  // todo
+
+}
+
+extern int home_digital_clock_1_hour_value;
+extern int home_digital_clock_1_min_value;
+extern int home_digital_clock_1_sec_value;
+const char *c_wday_map[7] = {"星期日","星期一","星期二","星期三","星期四","星期五","星期六"};
+void time_loop()
+{
+  struct tm timeinfo;
+  if (!getLocalTime(&timeinfo))
+  {
+    printf("Failed to obtain time\r\n");
+    return;
+  }
+  home_digital_clock_1_hour_value = timeinfo.tm_hour;
+  home_digital_clock_1_min_value = timeinfo.tm_min;
+  home_digital_clock_1_sec_value = timeinfo.tm_sec;
+
+  char tmp_date[10] ={};char tmp_week[10] ={};
+  sprintf(tmp_date, "%d/%02d/%02d", timeinfo.tm_year+1900, timeinfo.tm_mon+1, timeinfo.tm_mday);
+  lv_label_set_text(guider_ui.home_datetext_date, tmp_date);
+
+  sprintf(tmp_week, "%s", c_wday_map[timeinfo.tm_wday]);
+  lv_label_set_text(guider_ui.home_label_week, tmp_week);
+}
+
+void tips_loop()
+{
+  lv_label_set_text(guider_ui.home_label_tips, "腹中贮书一万卷，不肯低头在草莽。");
+  // todo
+}
+
+int loop_cnt =0;
+void home_loop()
+{
+  if (loop_cnt % (INTERVAL_WEATHER/ INTERVAL_HOME_BASE) == 0){
+    printf("weather loop start\r\n");
+    weather_loop();
+  }
+  if (loop_cnt % (INTERVAL_TIME_DATE_SYNC/ INTERVAL_HOME_BASE) == 0 ){
+    printf("time sync loop start\r\n");
+    time_loop();
+  }
+  if (loop_cnt % (INTERVAL_TIPS / INTERVAL_HOME_BASE) == 0 ){
+    printf("tips loop start\r\n");
+    tips_loop();
+  }
+
+  loop_cnt++;
+}
+
+void home_adjust()
+{
+  lv_label_set_text(guider_ui.home_label_today_weather, "");
+  // todo 
 }
 
 void bar_show_adjust()
@@ -128,9 +199,13 @@ void station_init(lv_timer_t * tm)
 
   if (x >= x_max) {
     printf("MY_EVENT_POWER_ON progress_val done\r\n");
-    lv_timer_set_repeat_count(lv_timer_create(weather_loop, INTERVAL_WEATHER, NULL), -1);
+    
+    lv_timer_set_repeat_count(lv_timer_create(home_loop, INTERVAL_HOME_BASE, NULL), -1);
+
     // 这里不能多次进入，否则会死机
     ui_load_scr_animation(&guider_ui, &guider_ui.home, guider_ui.home_del, &guider_ui.power_on_del, setup_scr_home, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 500, 200, true, true);
+    
+    home_adjust();
     return;
   }
   for (int i = 0; i < PHASE_NUM; i++)
@@ -152,13 +227,10 @@ void station_init(lv_timer_t * tm)
   lv_textprogress_set_value(guider_ui.power_on_textprogress_1, x);
 }
 
-
-
 void custom_init(lv_ui *ui)
 {
     /* Add your codes here */
-  MY_EVENT_POWER_ON = lv_event_register_id();  
-
+  // MY_EVENT_POWER_ON = lv_event_register_id();  
   // lv_obj_add_event_cb(ui->power_on_bar_1, m_power_on_bar_1_event_handler, LV_EVENT_ALL, ui);
 
   bar_show_adjust();

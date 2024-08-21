@@ -26,6 +26,9 @@ void setup_scr_power_on(lv_ui *ui)
 	lv_obj_set_style_bg_opa(ui->power_on, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_color(ui->power_on, lv_color_hex(0xf2be38), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_grad_dir(ui->power_on, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_img_src(ui->power_on, &_haimianbaobao_320x240, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_img_opa(ui->power_on, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_img_recolor_opa(ui->power_on, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
 	//Write codes power_on_bar_1
 	ui->power_on_bar_1 = lv_bar_create(ui->power_on);
@@ -82,12 +85,12 @@ void setup_scr_power_on(lv_ui *ui)
 	lv_textprogress_set_range_value(ui->power_on_textprogress_1, 0, 100, 0, 0);
 	lv_textprogress_set_decimal(ui->power_on_textprogress_1, 2);
 	lv_textprogress_set_value(ui->power_on_textprogress_1, 80);
-	lv_obj_set_pos(ui->power_on_textprogress_1, 127, 146);
+	lv_obj_set_pos(ui->power_on_textprogress_1, 127, 138);
 	lv_obj_set_size(ui->power_on_textprogress_1, 55, 16);
 
 	//Write style for power_on_textprogress_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_radius(ui->power_on_textprogress_1, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_color(ui->power_on_textprogress_1, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(ui->power_on_textprogress_1, lv_color_hex(0xf2be38), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_font(ui->power_on_textprogress_1, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->power_on_textprogress_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_letter_space(ui->power_on_textprogress_1, 1, LV_PART_MAIN|LV_STATE_DEFAULT);

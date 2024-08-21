@@ -1,1 +1,1 @@
-GEN_CSRCS += 
+GEN_CSRCS += _haimianbaobao_320x240.c
