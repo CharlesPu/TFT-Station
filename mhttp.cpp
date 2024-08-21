@@ -146,10 +146,10 @@ traffic_t getTraffic(){
 	url = url + "&key=" + TRAFFIC_URL_KEY;
 	url = url + "&output=json&show_fields=cost"; 
 
-	DynamicJsonDocument  doc(20000); 
+	JsonDocument  doc; 
 
 	HTTPClient http;
-	traffic_t r;
+	traffic_t r = {INT_MAX, INT_MAX};
 
 	http.begin(url);
 
@@ -159,14 +159,62 @@ traffic_t getTraffic(){
 		if (httpGet == HTTP_CODE_OK)
 		{
 			String json = http.getString();
-			Serial.println(json.c_str());  //打印接受到的消息
+			// Serial.println(json.c_str());  //打印接受到的消息
 
-			// deserializeJson(doc, json);
+			deserializeJson(doc, json);
 			// serializeJsonPretty(doc, Serial);
 
-			// JsonObject root = doc.as<JsonObject>();
-			// JsonArray results = root["results"];
-      
+			JsonObject root = doc.as<JsonObject>();
+      int cnt = root["count"].as<int>();
+			JsonArray results = root["route"]["paths"];
+      // printf("yyyyy %d \r\n", cnt);
+      for (int i = 0; i < cnt; i++)
+      {
+        int tmp_1 = results[i]["cost"]["duration"].as<int>();
+        if (tmp_1 < r.duration_cost){ r.duration_cost = tmp_1; }
+        int tmp_2 = results[i]["distance"].as<int>();
+        // printf("zzzzz %d \r\n", tmp_2);
+        if (tmp_2 < r.distance){ r.distance = tmp_2; }
+      }
+		}else 
+		{
+			String json = http.getString();
+			printf("request fail: %d, %s\r\n",httpGet,json);
+		}
+	}else
+  {
+    Serial.printf("[HTTP] GET %s... failed, error: %s\n",url.c_str(), http.errorToString(httpGet).c_str());
+  }
+	http.end();
+
+	return r;
+}
+
+const char* getOnePoetry()
+{
+  String url = URL_POETRY;
+	url = url + "/all.json";
+
+	JsonDocument  doc; 
+
+	HTTPClient http;
+	static char r[256] = {};
+
+	http.begin(url);
+
+	int httpGet = http.GET();
+	if (httpGet > 0)
+	{
+		if (httpGet == HTTP_CODE_OK)
+		{
+			String json = http.getString();
+			// Serial.println(json.c_str());  //打印接受到的消息
+
+			deserializeJson(doc, json);
+			serializeJsonPretty(doc, Serial);
+
+			JsonObject root = doc.as<JsonObject>();
+      strcpy(r, root["content"].as<const char*>());
 		}else 
 		{
 			String json = http.getString();

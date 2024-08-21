@@ -22,6 +22,7 @@
 #define WEATHER_URL_LANGUAGE_CN "zh-Hans"
 
 #define TRAFFIC_URL_DRIVING 		"https://restapi.amap.com/v5/direction/driving"
+#define URL_POETRY "https://v1.jinrishici.com"
 
 
 // NTP配置参数, 使用阿里云的NTP服务器

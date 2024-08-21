@@ -46,6 +46,7 @@ typedef struct
 	lv_obj_t *home_label_5;
 	lv_obj_t *home_digital_clock_1;
 	lv_obj_t *home_label_tips;
+	lv_obj_t *home_label_traffic;
 	lv_obj_t *home_calendar_1;
 	lv_obj_t *home_cont_bkg;
 	lv_obj_t *home_label_week;

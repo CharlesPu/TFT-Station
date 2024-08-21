@@ -15,7 +15,7 @@
 #include <stdbool.h>
 #include "lvgl.h"
 #include "custom.h"
-#include "guider_customer_fonts.h"
+// #include "guider_customer_fonts.h"
 
 /*********************
  *      DEFINES
@@ -82,7 +82,7 @@ void weather_loop()
   // }
   // chns[0] = "晴天";
   // printf("aaaa %s\r\n",chns[0]);
-  lv_obj_set_style_text_font(guider_ui.home_label_today_weather, &lv_customer_font_fangzhengxiaobiaosong_14, LV_PART_MAIN|LV_STATE_DEFAULT);
+  // lv_obj_set_style_text_font(guider_ui.home_label_today_weather, &lv_customer_font_fangzhengxiaobiaosong_14, LV_PART_MAIN|LV_STATE_DEFAULT);
   lv_label_set_text(guider_ui.home_label_today_weather, "晴天");
 }
 void bar_show_adjust()

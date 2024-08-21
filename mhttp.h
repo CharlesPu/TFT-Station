@@ -18,6 +18,8 @@ void httpTest(void);
 
 traffic_t getTraffic(void);
 
+const char* getOnePoetry();
+
 #ifdef __cplusplus
 }
 #endif

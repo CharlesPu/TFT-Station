@@ -32,10 +32,11 @@ uint32_t MY_EVENT_POWER_ON;
  **********************/
 #define INTERVAL_POWERON_BAR_ANIM 10 // ms
 
-#define INTERVAL_HOME_BASE 1000
+#define INTERVAL_HOME_BASE 2000
 #define INTERVAL_WEATHER 10000 // ms
-#define INTERVAL_TIME_DATE_SYNC 13000
-#define INTERVAL_TIPS 15000
+#define INTERVAL_TIME_DATE_SYNC 12000
+#define INTERVAL_TIPS 16000
+#define INTERVAL_TRAFFIC 14000
 
 /**********************
  *  STATIC PROTOTYPES
@@ -94,7 +95,7 @@ void weather_loop()
       }
     }
   }
-  printf("aaaa %s\r\n",chns[0]);
+  // printf("aaaa %s\r\n",chns[0]);
 
 // 天气
   char tmp[40] ={};
@@ -135,8 +136,24 @@ void time_loop()
 
 void tips_loop()
 {
-  lv_label_set_text(guider_ui.home_label_tips, "腹中贮书一万卷，不肯低头在草莽。");
-  // todo
+  // lv_label_set_text(guider_ui.home_label_tips, "腹中贮书一万卷，不肯低头在草莽。");
+  lv_label_set_text(guider_ui.home_label_tips, "");
+
+  const char * poetry= NULL;
+  poetry = getOnePoetry();
+  if (poetry!=NULL) {
+    // printf("xxxx %s\r\n", poetry);
+    lv_label_set_text(guider_ui.home_label_tips, poetry);
+  }
+}
+
+void traffic_loop()
+{
+  traffic_t tr = getTraffic();
+  printf("get traffic data: cost:%d, dist:%d\r\n", tr.duration_cost, tr.distance);
+  char tmp[60] = {};
+  sprintf(tmp, "%.01fmin\r\n%.01fkm", (float)tr.duration_cost/60.0f, (float)tr.distance/1000.0f);
+  lv_label_set_text(guider_ui.home_label_traffic, tmp);
 }
 
 int loop_cnt =0;
@@ -153,6 +170,10 @@ void home_loop()
   if (loop_cnt % (INTERVAL_TIPS / INTERVAL_HOME_BASE) == 0 ){
     printf("tips loop start\r\n");
     tips_loop();
+  }
+  if (loop_cnt % (INTERVAL_TRAFFIC/ INTERVAL_HOME_BASE) == 0){
+    printf("traffic loop start\r\n");
+    traffic_loop();
   }
 
   loop_cnt++;
