@@ -37,7 +37,7 @@ void setup_scr_power_on(lv_ui *ui)
 	lv_bar_set_mode(ui->power_on_bar_1, LV_BAR_MODE_NORMAL);
 	lv_bar_set_range(ui->power_on_bar_1, 0, 100);
 	lv_bar_set_value(ui->power_on_bar_1, 0, LV_ANIM_OFF);
-	lv_obj_set_pos(ui->power_on_bar_1, 79, 127);
+	lv_obj_set_pos(ui->power_on_bar_1, 82, 206);
 	lv_obj_set_size(ui->power_on_bar_1, 160, 10);
 
 	//Write style for power_on_bar_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -62,7 +62,7 @@ void setup_scr_power_on(lv_ui *ui)
 	ui->power_on_label_1 = lv_label_create(ui->power_on);
 	lv_label_set_text(ui->power_on_label_1, "starting...");
 	lv_label_set_long_mode(ui->power_on_label_1, LV_LABEL_LONG_WRAP);
-	lv_obj_set_pos(ui->power_on_label_1, 73, 90);
+	lv_obj_set_pos(ui->power_on_label_1, 75, 174);
 	lv_obj_set_size(ui->power_on_label_1, 174, 32);
 
 	//Write style for power_on_label_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -86,7 +86,7 @@ void setup_scr_power_on(lv_ui *ui)
 	lv_textprogress_set_range_value(ui->power_on_textprogress_1, 0, 100, 0, 0);
 	lv_textprogress_set_decimal(ui->power_on_textprogress_1, 2);
 	lv_textprogress_set_value(ui->power_on_textprogress_1, 80);
-	lv_obj_set_pos(ui->power_on_textprogress_1, 127, 138);
+	lv_obj_set_pos(ui->power_on_textprogress_1, 134, 211);
 	lv_obj_set_size(ui->power_on_textprogress_1, 55, 16);
 
 	//Write style for power_on_textprogress_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.

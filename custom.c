@@ -25,18 +25,18 @@
 /*********************
  *      DEFINES
  *********************/
-uint32_t MY_EVENT_POWER_ON;
+// uint32_t MY_EVENT_POWER_ON;
 
 /**********************
  *      TYPEDEFS
  **********************/
 #define INTERVAL_POWERON_BAR_ANIM 10 // ms
 
-#define INTERVAL_HOME_BASE 2000
-#define INTERVAL_WEATHER 10000 // ms
-#define INTERVAL_TIME_DATE_SYNC 12000
-#define INTERVAL_TIPS 16000
-#define INTERVAL_TRAFFIC 14000
+#define INTERVAL_HOME_BASE 1000
+#define INTERVAL_TIME_DATE_SYNC 10000
+#define INTERVAL_WEATHER 12000 // ms
+#define INTERVAL_TIPS 18000
+#define INTERVAL_TRAFFIC 20000
 
 /**********************
  *  STATIC PROTOTYPES
@@ -95,7 +95,6 @@ void weather_loop()
       }
     }
   }
-  // printf("aaaa %s\r\n",chns[0]);
 
 // 天气
   char tmp[40] ={};
@@ -106,8 +105,22 @@ void weather_loop()
   lv_label_set_text(guider_ui.home_label_today_humidity, tmp);
   memset(tmp,0,sizeof(tmp));sprintf(tmp, "风力%d", w.weathers[0].wind_scale);
   lv_label_set_text(guider_ui.home_label_today_wind, tmp);
-  // todo
+  
+  lv_label_set_text(guider_ui.home_label_tomorrow_weather, chns[1]);
+  memset(tmp,0,sizeof(tmp));sprintf(tmp, "%s-%s℃", w.weathers[1].temp_low, w.weathers[1].temp_high);
+  lv_label_set_text(guider_ui.home_label_tomorrow_temp, tmp);
+  memset(tmp,0,sizeof(tmp));sprintf(tmp, "%s%%", w.weathers[1].humidity);
+  lv_label_set_text(guider_ui.home_label_tomorrow_humidity, tmp);
+  memset(tmp,0,sizeof(tmp));sprintf(tmp, "风力%d", w.weathers[1].wind_scale);
+  lv_label_set_text(guider_ui.home_label_tomorrow_wind, tmp);
 
+  lv_label_set_text(guider_ui.home_label_aftertom_weather, chns[2]);
+  memset(tmp,0,sizeof(tmp));sprintf(tmp, "%s-%s℃", w.weathers[2].temp_low, w.weathers[2].temp_high);
+  lv_label_set_text(guider_ui.home_label_aftertom_temp, tmp);
+  memset(tmp,0,sizeof(tmp));sprintf(tmp, "%s%%", w.weathers[2].humidity);
+  lv_label_set_text(guider_ui.home_label_aftertom_humidity, tmp);
+  memset(tmp,0,sizeof(tmp));sprintf(tmp, "风力%d", w.weathers[2].wind_scale);
+  lv_label_set_text(guider_ui.home_label_aftertom_wind, tmp);
 }
 
 extern int home_digital_clock_1_hour_value;
@@ -139,10 +152,9 @@ void tips_loop()
   // lv_label_set_text(guider_ui.home_label_tips, "腹中贮书一万卷，不肯低头在草莽。");
   lv_label_set_text(guider_ui.home_label_tips, "");
 
-  const char * poetry= NULL;
+  const char * poetry = NULL;
   poetry = getOnePoetry();
   if (poetry!=NULL) {
-    // printf("xxxx %s\r\n", poetry);
     lv_label_set_text(guider_ui.home_label_tips, poetry);
   }
 }
@@ -159,30 +171,53 @@ void traffic_loop()
 int loop_cnt =0;
 void home_loop()
 {
-  if (loop_cnt % (INTERVAL_WEATHER/ INTERVAL_HOME_BASE) == 0){
-    printf("weather loop start\r\n");
-    weather_loop();
-  }
-  if (loop_cnt % (INTERVAL_TIME_DATE_SYNC/ INTERVAL_HOME_BASE) == 0 ){
+  if (loop_cnt % (INTERVAL_TIME_DATE_SYNC/ INTERVAL_HOME_BASE) == 0){
     printf("time sync loop start\r\n");
     time_loop();
   }
-  if (loop_cnt % (INTERVAL_TIPS / INTERVAL_HOME_BASE) == 0 ){
+  if (loop_cnt % (INTERVAL_WEATHER/ INTERVAL_HOME_BASE) == 2){
+    printf("weather loop start\r\n");
+    weather_loop();
+  }
+  if (loop_cnt % (INTERVAL_TIPS / INTERVAL_HOME_BASE) == 4 ){
     printf("tips loop start\r\n");
     tips_loop();
   }
-  if (loop_cnt % (INTERVAL_TRAFFIC/ INTERVAL_HOME_BASE) == 0){
+  if (loop_cnt % (INTERVAL_TRAFFIC/ INTERVAL_HOME_BASE) == 5){
     printf("traffic loop start\r\n");
     traffic_loop();
   }
 
   loop_cnt++;
 }
-
+void m_home_tips_event_handler(lv_event_t * e)
+{
+  lv_event_code_t code = lv_event_get_code(e);
+  printf("get code %d, %d\r\n",code, lv_event_get_target(e) == guider_ui.home_label_tips);
+  if (lv_event_get_target(e) == guider_ui.home_label_tips && code == LV_EVENT_CLICKED) {
+    traffic_loop();
+  }
+}
 void home_adjust()
 {
   lv_label_set_text(guider_ui.home_label_today_weather, "");
+  lv_label_set_text(guider_ui.home_label_today_humidity, "");
+  lv_label_set_text(guider_ui.home_label_today_temp, "");
+  lv_label_set_text(guider_ui.home_label_today_wind, "");
+  lv_label_set_text(guider_ui.home_label_tomorrow_weather, "");
+  lv_label_set_text(guider_ui.home_label_tomorrow_humidity, "");
+  lv_label_set_text(guider_ui.home_label_tomorrow_temp, "");
+  lv_label_set_text(guider_ui.home_label_tomorrow_wind, "");
+  lv_label_set_text(guider_ui.home_label_aftertom_weather, "");
+  lv_label_set_text(guider_ui.home_label_aftertom_humidity, "");
+  lv_label_set_text(guider_ui.home_label_aftertom_temp, "");
+  lv_label_set_text(guider_ui.home_label_aftertom_wind, "");
+
+  lv_label_set_text(guider_ui.home_label_traffic, "");
+  lv_label_set_text(guider_ui.home_label_tips, "");
+
   // todo 
+  lv_obj_add_event_cb(guider_ui.home_label_tips, m_home_tips_event_handler, LV_EVENT_ALL, &guider_ui);
 }
 
 void bar_show_adjust()
@@ -208,7 +243,8 @@ void bar_show_adjust()
    lv_obj_add_style(bar,&style_indic,LV_PART_INDICATOR);//添加样式
 
    lv_obj_set_size(bar,260,20);           //设置样式尺寸
-   lv_obj_center(bar);                    //居中显示
+	 lv_obj_set_pos(bar, 30, 192);
+  //  lv_obj_center(bar);                    //居中显示
    lv_bar_set_value(bar,0,LV_ANIM_OFF);  //设置初始值
 }
 
@@ -252,10 +288,9 @@ void custom_init(lv_ui *ui)
 {
     /* Add your codes here */
   // MY_EVENT_POWER_ON = lv_event_register_id();  
-  // lv_obj_add_event_cb(ui->power_on_bar_1, m_power_on_bar_1_event_handler, LV_EVENT_ALL, ui);
 
   bar_show_adjust();
-  x_max = lv_bar_get_max_value(guider_ui.power_on_bar_1);
+  x_max = lv_bar_get_max_value(ui->power_on_bar_1);
 
   // start trigger!
   lv_timer_set_repeat_count(lv_timer_create(station_init, INTERVAL_POWERON_BAR_ANIM, NULL), x_max);

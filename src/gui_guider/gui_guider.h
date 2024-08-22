@@ -34,19 +34,21 @@ typedef struct
 	lv_obj_t *home_label_today_temp;
 	lv_obj_t *home_label_today_humidity;
 	lv_obj_t *home_label_today_wind;
-	lv_obj_t *home_cont_1;
-	lv_obj_t *home_label_4;
-	lv_obj_t *home_label_3;
-	lv_obj_t *home_label_2;
-	lv_obj_t *home_label_1;
-	lv_obj_t *home_cont_2;
-	lv_obj_t *home_label_8;
-	lv_obj_t *home_label_7;
-	lv_obj_t *home_label_6;
-	lv_obj_t *home_label_5;
+	lv_obj_t *home_cont_tomorrow;
+	lv_obj_t *home_label_tomorrow_weather;
+	lv_obj_t *home_label_tomorrow_temp;
+	lv_obj_t *home_label_tomorrow_humidity;
+	lv_obj_t *home_label_tomorrow_wind;
+	lv_obj_t *home_cont_aftertom;
+	lv_obj_t *home_label_aftertom_weather;
+	lv_obj_t *home_label_aftertom_temp;
+	lv_obj_t *home_label_aftertom_humidity;
+	lv_obj_t *home_label_aftertom_wind;
+	lv_obj_t *home_cont_traffic;
+	lv_obj_t *home_label_traffic_txt;
+	lv_obj_t *home_label_traffic;
 	lv_obj_t *home_digital_clock_1;
 	lv_obj_t *home_label_tips;
-	lv_obj_t *home_label_traffic;
 	lv_obj_t *home_calendar_1;
 	lv_obj_t *home_cont_bkg;
 	lv_obj_t *home_label_week;
@@ -80,10 +82,9 @@ void setup_scr_home(lv_ui *ui);
 LV_IMG_DECLARE(_haimianbaobao_320x240);
 
 LV_FONT_DECLARE(lv_font_montserratMedium_12)
-LV_FONT_DECLARE(lv_font_montserratMedium_16)
-LV_FONT_DECLARE(lv_font_fangzhengxiaobiaosong_12)
-LV_FONT_DECLARE(lv_font_bangtamvan_kvjmd_72)
 LV_FONT_DECLARE(lv_font_fangzhengxiaobiaosong_14)
+LV_FONT_DECLARE(lv_font_RuiZiGongFangZhanFangHeiJian_70)
+LV_FONT_DECLARE(lv_font_fangzhengxiaobiaosong_16)
 
 
 #ifdef __cplusplus

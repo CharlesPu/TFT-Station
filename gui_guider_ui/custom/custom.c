@@ -108,7 +108,8 @@ void bar_show_adjust()
    lv_obj_add_style(bar,&style_indic,LV_PART_INDICATOR);//添加样式
 
    lv_obj_set_size(bar,260,20);           //设置样式尺寸
-   lv_obj_center(bar);                    //居中显示
+  //  lv_obj_center(bar);                    //居中显示
+   lv_obj_set_pos(bar, 30, 192);
    lv_bar_set_value(bar,0,LV_ANIM_OFF);  //设置初始值
 }
 
