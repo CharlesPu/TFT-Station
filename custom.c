@@ -33,10 +33,10 @@
 #define INTERVAL_POWERON_BAR_ANIM 10 // ms
 
 #define INTERVAL_HOME_BASE 1000
-#define INTERVAL_TIME_DATE_SYNC 10000
-#define INTERVAL_WEATHER 12000 // ms
-#define INTERVAL_TIPS 18000
-#define INTERVAL_TRAFFIC 20000
+#define INTERVAL_TIME_DATE_SYNC (60000 * 30)
+#define INTERVAL_WEATHER (60000 * 60) // ms
+#define INTERVAL_TIPS (60000 * 50)
+#define INTERVAL_TRAFFIC (60000 * 5)
 
 /**********************
  *  STATIC PROTOTYPES
@@ -217,7 +217,7 @@ void home_adjust()
   lv_label_set_text(guider_ui.home_label_tips, "");
 
   // todo 
-  lv_obj_add_event_cb(guider_ui.home_label_tips, m_home_tips_event_handler, LV_EVENT_ALL, &guider_ui);
+  // lv_obj_add_event_cb(guider_ui.home_label_tips, m_home_tips_event_handler, LV_EVENT_ALL, &guider_ui);
 }
 
 void bar_show_adjust()

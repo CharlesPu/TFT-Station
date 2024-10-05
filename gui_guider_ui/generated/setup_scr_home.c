@@ -39,7 +39,7 @@ void setup_scr_home(lv_ui *ui)
 
 	//Write style for home_tabview_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_bg_opa(ui->home_tabview_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_color(ui->home_tabview_1, lv_color_hex(0xa1ead6), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_color(ui->home_tabview_1, lv_color_hex(0x020202), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_grad_dir(ui->home_tabview_1, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(ui->home_tabview_1, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_font(ui->home_tabview_1, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -55,7 +55,7 @@ void setup_scr_home(lv_ui *ui)
 	ui_init_style(&style_home_tabview_1_extra_btnm_main_default);
 	
 	lv_style_set_bg_opa(&style_home_tabview_1_extra_btnm_main_default, 255);
-	lv_style_set_bg_color(&style_home_tabview_1_extra_btnm_main_default, lv_color_hex(0x46cdd0));
+	lv_style_set_bg_color(&style_home_tabview_1_extra_btnm_main_default, lv_color_hex(0x2e888a));
 	lv_style_set_bg_grad_dir(&style_home_tabview_1_extra_btnm_main_default, LV_GRAD_DIR_NONE);
 	lv_style_set_border_width(&style_home_tabview_1_extra_btnm_main_default, 0);
 	lv_style_set_radius(&style_home_tabview_1_extra_btnm_main_default, 3);
@@ -65,7 +65,7 @@ void setup_scr_home(lv_ui *ui)
 	static lv_style_t style_home_tabview_1_extra_btnm_items_default;
 	ui_init_style(&style_home_tabview_1_extra_btnm_items_default);
 	
-	lv_style_set_text_color(&style_home_tabview_1_extra_btnm_items_default, lv_color_hex(0x878787));
+	lv_style_set_text_color(&style_home_tabview_1_extra_btnm_items_default, lv_color_hex(0xbcbcbc));
 	lv_style_set_text_font(&style_home_tabview_1_extra_btnm_items_default, &lv_font_montserratMedium_12);
 	lv_style_set_text_opa(&style_home_tabview_1_extra_btnm_items_default, 255);
 	lv_obj_add_style(lv_tabview_get_tab_btns(ui->home_tabview_1), &style_home_tabview_1_extra_btnm_items_default, LV_PART_ITEMS|LV_STATE_DEFAULT);
@@ -144,7 +144,7 @@ void setup_scr_home(lv_ui *ui)
 	//Write style for home_label_today_temp, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_border_width(ui->home_label_today_temp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_radius(ui->home_label_today_temp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_color(ui->home_label_today_temp, lv_color_hex(0x61589e), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(ui->home_label_today_temp, lv_color_hex(0x8079b1), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_font(ui->home_label_today_temp, &lv_font_fangzhengxiaobiaosong_14, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->home_label_today_temp, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_letter_space(ui->home_label_today_temp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -255,7 +255,7 @@ void setup_scr_home(lv_ui *ui)
 	//Write style for home_label_tomorrow_temp, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_border_width(ui->home_label_tomorrow_temp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_radius(ui->home_label_tomorrow_temp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_color(ui->home_label_tomorrow_temp, lv_color_hex(0x61589e), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(ui->home_label_tomorrow_temp, lv_color_hex(0x726aa9), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_font(ui->home_label_tomorrow_temp, &lv_font_fangzhengxiaobiaosong_14, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->home_label_tomorrow_temp, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_letter_space(ui->home_label_tomorrow_temp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -366,7 +366,7 @@ void setup_scr_home(lv_ui *ui)
 	//Write style for home_label_aftertom_temp, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_border_width(ui->home_label_aftertom_temp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_radius(ui->home_label_aftertom_temp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_color(ui->home_label_aftertom_temp, lv_color_hex(0x61589e), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(ui->home_label_aftertom_temp, lv_color_hex(0x7b73ae), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_font(ui->home_label_aftertom_temp, &lv_font_fangzhengxiaobiaosong_14, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->home_label_aftertom_temp, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_letter_space(ui->home_label_aftertom_temp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -502,7 +502,7 @@ void setup_scr_home(lv_ui *ui)
 
 	//Write style for home_digital_clock_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_radius(ui->home_digital_clock_1, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_color(ui->home_digital_clock_1, lv_color_hex(0x098D6B), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(ui->home_digital_clock_1, lv_color_hex(0x3da58a), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_font(ui->home_digital_clock_1, &lv_font_RuiZiGongFangZhanFangHeiJian_70, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->home_digital_clock_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_letter_space(ui->home_digital_clock_1, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -524,7 +524,7 @@ void setup_scr_home(lv_ui *ui)
 	//Write style for home_label_tips, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_border_width(ui->home_label_tips, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_radius(ui->home_label_tips, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_color(ui->home_label_tips, lv_color_hex(0x504099), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(ui->home_label_tips, lv_color_hex(0x867bb8), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_font(ui->home_label_tips, &lv_font_fangzhengxiaobiaosong_16, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->home_label_tips, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_letter_space(ui->home_label_tips, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -545,13 +545,13 @@ void setup_scr_home(lv_ui *ui)
 	//Write codes home_calendar_1
 	ui->home_calendar_1 = lv_calendar_create(ui->home_tabview_1_tab_2);
 	home_calendar_1_today.year = 2024;
-	home_calendar_1_today.month = 8;
-	home_calendar_1_today.day = 22;
+	home_calendar_1_today.month = 10;
+	home_calendar_1_today.day = 5;
 	lv_calendar_set_today_date(ui->home_calendar_1, home_calendar_1_today.year, home_calendar_1_today.month, home_calendar_1_today.day);
 	lv_calendar_set_showed_date(ui->home_calendar_1, home_calendar_1_today.year, home_calendar_1_today.month);
 	home_calendar_1_highlihted_days[0].year = 2024;
-	home_calendar_1_highlihted_days[0].month = 8;
-	home_calendar_1_highlihted_days[0].day = 23;
+	home_calendar_1_highlihted_days[0].month = 10;
+	home_calendar_1_highlihted_days[0].day = 6;
 	lv_calendar_set_highlighted_dates(ui->home_calendar_1, home_calendar_1_highlihted_days, 1);
 	lv_obj_t *home_calendar_1_header = lv_calendar_header_arrow_create(ui->home_calendar_1);
 	lv_calendar_t *home_calendar_1 = (lv_calendar_t *)ui->home_calendar_1;
@@ -699,6 +699,4 @@ void setup_scr_home(lv_ui *ui)
 	//Update current screen layout.
 	lv_obj_update_layout(ui->home);
 
-	//Init events for screen.
-	events_init_home(ui);
 }
